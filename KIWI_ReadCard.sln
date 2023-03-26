@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIWI_ReadCard", "KIWI_ReadCard\KIWI_ReadCard.csproj", "{7DCED41B-C7D1-4812-A750-50F7FC243197}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetUp", "SetUp\SetUp.vdproj", "{D8AC15E0-BFDE-4B81-AF65-8C9F8C2C1C47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DCED41B-C7D1-4812-A750-50F7FC243197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCED41B-C7D1-4812-A750-50F7FC243197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCED41B-C7D1-4812-A750-50F7FC243197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCED41B-C7D1-4812-A750-50F7FC243197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8AC15E0-BFDE-4B81-AF65-8C9F8C2C1C47}.Debug|Any CPU.ActiveCfg = Debug
+		{D8AC15E0-BFDE-4B81-AF65-8C9F8C2C1C47}.Debug|Any CPU.Build.0 = Debug
+		{D8AC15E0-BFDE-4B81-AF65-8C9F8C2C1C47}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09DF15CE-7C6D-44D1-89A9-71581B83E822}
+	EndGlobalSection
+EndGlobal
