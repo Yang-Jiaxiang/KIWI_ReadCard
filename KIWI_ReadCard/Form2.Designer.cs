@@ -46,8 +46,8 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("華康中黑體(P)", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button1.Location = new System.Drawing.Point(367, 12);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button1.Location = new System.Drawing.Point(367, 19);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 91);
             this.button1.TabIndex = 1;
@@ -66,20 +66,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("華康中黑體(P)", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(20, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 28);
+            this.label1.Size = new System.Drawing.Size(72, 32);
             this.label1.TabIndex = 3;
             this.label1.Text = "帳號";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("華康中黑體(P)", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label2.Location = new System.Drawing.Point(20, 75);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Location = new System.Drawing.Point(20, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 28);
+            this.label2.Size = new System.Drawing.Size(72, 32);
             this.label2.TabIndex = 4;
             this.label2.Text = "密碼";
             // 
@@ -106,8 +106,8 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBox1_username;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2_password;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
     }

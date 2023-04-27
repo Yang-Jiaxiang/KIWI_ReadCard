@@ -22,7 +22,7 @@ namespace KIWI_ReadCard
             var client = new HttpClient();
             // 設定請求的標頭，指定傳遞的資料格式為 JSON
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            
+
             // 發送 HTTP POST 請求
             var response = await client.GetAsync(BACKEND_URL + "api/department?limit=10&offset=0");
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -77,7 +77,7 @@ namespace KIWI_ReadCard
                 if (responseContent.Contains("E11000"))
                 {
                     Form1.instance.addLog("已經存在資料庫");
-                    return "500";
+                    return "300";
                 }
                 else
                 {

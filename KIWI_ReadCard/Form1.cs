@@ -15,8 +15,10 @@ namespace KIWI_ReadCard
     {
         public static Form1 instance;
         public Form2 form2 = new Form2();
+        public BoolForm BoolForm = new BoolForm();
         public string apiToken = "";
         public string patientDepartment = "";
+        public string patientID = "";
 
         public Form1()
         {
@@ -27,6 +29,7 @@ namespace KIWI_ReadCard
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
         }
 
         private async void button_ReadCard_Click(object sender, EventArgs e)
@@ -35,8 +38,10 @@ namespace KIWI_ReadCard
             //判斷是否有資料
             if (patientJson.id != null)
             {
+                patientID=patientJson.id;
                 patientJson.department = patientDepartment;
                 string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
+                if (resStateCode == "200" || resStateCode == "300") opneBoolForm();
                 Console.WriteLine(resStateCode);
             }
             else
@@ -50,6 +55,11 @@ namespace KIWI_ReadCard
         {
             DateTime currentDateTime = DateTime.Now;
             textBox_log.Text = textBox_log.Text + currentDateTime +":"+ text + "\r\n";
+        }
+
+        public void opneBoolForm()
+        {
+            BoolForm.ShowDialog();
         }
 
         public void openForm2()
