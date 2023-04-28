@@ -15,7 +15,7 @@ namespace KIWI_ReadCard
     {
         public static Form1 instance;
         public Form2 form2 = new Form2();
-        public BoolForm BoolForm = new BoolForm();
+        public BloodForm BloodForm = new BloodForm();
         public string apiToken = "";
         public string patientDepartment = "";
         public string patientID = "";
@@ -41,7 +41,7 @@ namespace KIWI_ReadCard
                 patientID=patientJson.id;
                 patientJson.department = patientDepartment;
                 string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
-                if (resStateCode == "200" || resStateCode == "300") opneBoolForm();
+                if (resStateCode == "200" || resStateCode == "300") opneBloodForm();
                 Console.WriteLine(resStateCode);
             }
             else
@@ -57,9 +57,9 @@ namespace KIWI_ReadCard
             textBox_log.Text = textBox_log.Text + currentDateTime +":"+ text + "\r\n";
         }
 
-        public void opneBoolForm()
+        public void opneBloodForm()
         {
-            BoolForm.ShowDialog();
+            BloodForm.ShowDialog();
         }
 
         public void openForm2()
@@ -70,6 +70,11 @@ namespace KIWI_ReadCard
         public void closeForm2()
         {
             form2.Close();
+        }
+
+        public void closeBloodForm()
+        {
+            BloodForm.Close();
         }
 
 

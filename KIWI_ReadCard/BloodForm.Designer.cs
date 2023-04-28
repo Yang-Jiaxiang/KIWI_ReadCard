@@ -1,6 +1,6 @@
 ﻿namespace KIWI_ReadCard
 {
-    partial class BoolForm
+    partial class BloodForm
     {
         /// <summary>
         /// Required designer variable.

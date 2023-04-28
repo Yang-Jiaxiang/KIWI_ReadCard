@@ -31,5 +31,11 @@ namespace KIWI_ReadCard
             public string address;
             public string active;
         }
+
+        public class postApiBloodForm
+        {
+            public string patientID;
+            public string number;
+        }
     }
 }
