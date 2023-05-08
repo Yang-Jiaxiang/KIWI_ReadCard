@@ -31,7 +31,7 @@ namespace KIWI_ReadCard
             postApiBloodForm postApiBloodForm = new postApiBloodForm()
             {
                 patientID = Form1.instance.patientID,
-                number = textBox1.Text
+                number = string.IsNullOrEmpty(textBox1.Text) ? "無抽血" : textBox1.Text
             };
             CreateBlood(postApiBloodForm);
             string StudyInstanceUID = CreateWorkList(Form1.instance.patientID);
