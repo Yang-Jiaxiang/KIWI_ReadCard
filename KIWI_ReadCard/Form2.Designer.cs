@@ -50,7 +50,7 @@
             this.button1.Location = new System.Drawing.Point(367, 19);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 91);
-            this.button1.TabIndex = 1;
+            this.button1.TabIndex = 2;
             this.button1.Text = "登入";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -61,7 +61,7 @@
             this.textBox2_password.Location = new System.Drawing.Point(96, 68);
             this.textBox2_password.Name = "textBox2_password";
             this.textBox2_password.Size = new System.Drawing.Size(256, 35);
-            this.textBox2_password.TabIndex = 2;
+            this.textBox2_password.TabIndex = 1;
             // 
             // label1
             // 
