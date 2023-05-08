@@ -69,7 +69,9 @@ namespace KIWI_ReadCard
 
         public void closeForm2()
         {
+
             form2.Close();
+            addDepartmentComboBox1();
         }
 
         public void closeBloodForm()
@@ -86,9 +88,15 @@ namespace KIWI_ReadCard
         public async void addDepartmentComboBox1()
         {
             try
-            {
+            {/*
+                fetchApi.APIRequest request = new fetchApi.APIRequest("api/department?limit=10&offset=0", apiToken);
+                dynamic response = request.Get();
+                //List<Type.getApiDepartmentResults> DepartmentList= response["results"];
+                Console.WriteLine(response["count"]);
+                */
                 Type.getApiDepartment Department = await apiGet.apiGetDepartment();
                 List<Type.getApiDepartmentResults> DepartmentList = Department.results;
+                
                 System.Object[] ItemObject = new System.Object[DepartmentList.Count];
                 for (int i = 0; i < DepartmentList.Count; i++)
                 {
