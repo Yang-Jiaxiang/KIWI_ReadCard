@@ -69,7 +69,6 @@ namespace KIWI_ReadCard
             {
                 patientID = postApiBloodForm.patientID,
                 procedureCode = "19009C",
-                status = "pending",
                 blood = postApiBloodForm.number,
                 StudyInstanceUID = StudyInstanceUID
             };
