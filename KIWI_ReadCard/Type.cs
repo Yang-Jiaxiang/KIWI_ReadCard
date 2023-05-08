@@ -29,7 +29,7 @@ namespace KIWI_ReadCard
             public string _id;
             public string name;
             public string address;
-            public string active;
+            public bool active;
         }
 
         public class postApiBloodForm

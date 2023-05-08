@@ -97,10 +97,12 @@ namespace KIWI_ReadCard
                 Type.getApiDepartment Department = await apiGet.apiGetDepartment();
                 List<Type.getApiDepartmentResults> DepartmentList = Department.results;
                 
-                System.Object[] ItemObject = new System.Object[DepartmentList.Count];
-                for (int i = 0; i < DepartmentList.Count; i++)
+                List<Type.getApiDepartmentResults> FilterCount = DepartmentList.Where(s => s.active == true).ToList();
+                System.Object[] ItemObject = new System.Object[FilterCount.Count];
+
+                for (int i = 0; i < FilterCount.Count; i++)
                 {
-                    ItemObject[i] = DepartmentList[i].name;
+                    ItemObject[i] = FilterCount[i].name;
                 }
                 comboBox1.Items.AddRange(ItemObject);
             }
