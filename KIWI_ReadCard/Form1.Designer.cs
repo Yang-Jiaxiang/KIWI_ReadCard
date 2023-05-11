@@ -38,9 +38,10 @@
             // button_ReadCard
             // 
             this.button_ReadCard.Font = new System.Drawing.Font("華康中黑體(P)", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_ReadCard.Location = new System.Drawing.Point(12, 12);
+            this.button_ReadCard.Location = new System.Drawing.Point(9, 10);
+            this.button_ReadCard.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_ReadCard.Name = "button_ReadCard";
-            this.button_ReadCard.Size = new System.Drawing.Size(355, 138);
+            this.button_ReadCard.Size = new System.Drawing.Size(345, 110);
             this.button_ReadCard.TabIndex = 0;
             this.button_ReadCard.Text = "讀取健保卡";
             this.button_ReadCard.UseVisualStyleBackColor = true;
@@ -48,19 +49,21 @@
             // 
             // textBox_log
             // 
-            this.textBox_log.Location = new System.Drawing.Point(12, 210);
+            this.textBox_log.Location = new System.Drawing.Point(9, 168);
+            this.textBox_log.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBox_log.Multiline = true;
             this.textBox_log.Name = "textBox_log";
-            this.textBox_log.Size = new System.Drawing.Size(355, 293);
+            this.textBox_log.Size = new System.Drawing.Size(345, 269);
             this.textBox_log.TabIndex = 1;
             // 
             // comboBox1
             // 
             this.comboBox1.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(118, 161);
+            this.comboBox1.Location = new System.Drawing.Point(88, 129);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(249, 31);
+            this.comboBox1.Size = new System.Drawing.Size(266, 31);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
@@ -68,25 +71,27 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("華康中黑體(P)", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label1.Location = new System.Drawing.Point(12, 164);
+            this.label1.Location = new System.Drawing.Point(9, 131);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 23);
             this.label1.TabIndex = 4;
-            this.label1.Text = "部門：";
+            this.label1.Text = "檢查：";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 515);
+            this.ClientSize = new System.Drawing.Size(365, 448);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox_log);
             this.Controls.Add(this.button_ReadCard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
-            this.Text = "好心肝診所讀卡系統";
+            this.Text = "超音波報告讀卡系統";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
