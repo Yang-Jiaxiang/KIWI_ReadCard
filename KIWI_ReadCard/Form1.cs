@@ -15,7 +15,6 @@ namespace KIWI_ReadCard
     {
         public static Form1 instance;
         public Form2 form2 = new Form2();
-        public BloodForm BloodForm = new BloodForm();
         public string apiToken = "";
         public string patientDepartment = "";
         public string patientID = "";
@@ -41,7 +40,6 @@ namespace KIWI_ReadCard
                 patientID=patientJson.id;
                 patientJson.department = patientDepartment;
                 string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
-                if (resStateCode == "200" || resStateCode == "300") opneBloodForm();
                 Console.WriteLine(resStateCode);
             }
             else
@@ -57,11 +55,6 @@ namespace KIWI_ReadCard
             textBox_log.Text = textBox_log.Text + currentDateTime +":"+ text + "\r\n";
         }
 
-        public void opneBloodForm()
-        {
-            BloodForm.ShowDialog();
-        }
-
         public void openForm2()
         {
             form2.ShowDialog();
@@ -71,12 +64,7 @@ namespace KIWI_ReadCard
         {
 
             form2.Close();
-            addDepartmentComboBox1();
-        }
-
-        public void closeBloodForm()
-        {
-            BloodForm.Close();
+            addProcedureCodeToComboBox1();
         }
 
 
@@ -85,26 +73,20 @@ namespace KIWI_ReadCard
             apiToken = token;
         }
 
-        public async void addDepartmentComboBox1()
+        public async void addProcedureCodeToComboBox1()
         {
             try
-            {/*
-                fetchApi.APIRequest request = new fetchApi.APIRequest("api/department?limit=10&offset=0", apiToken);
-                dynamic response = request.Get();
-                //List<Type.getApiDepartmentResults> DepartmentList= response["results"];
-                Console.WriteLine(response["count"]);
-                */
-                Type.getApiDepartment Department = await apiGet.apiGetDepartment();
-                List<Type.getApiDepartmentResults> DepartmentList = Department.results;
-                
-                List<Type.getApiDepartmentResults> FilterCount = DepartmentList.Where(s => s.active == true).ToList();
-                System.Object[] ItemObject = new System.Object[FilterCount.Count];
-
-                for (int i = 0; i < FilterCount.Count; i++)
+            {
+                Dictionary<string, string> items = new Dictionary<string, string>
                 {
-                    ItemObject[i] = FilterCount[i].name;
-                }
-                comboBox1.Items.AddRange(ItemObject);
+                    {"19014C", "19014C(健保)"},
+                    {"19014CNE1", "19014CNE1(自費)"},
+                    {"19014CNE2", "19014CNE2(自費)"}
+                };
+
+                comboBox1.DataSource = new BindingSource(items, null);
+                comboBox1.DisplayMember = "Value";
+                comboBox1.ValueMember = "Key";
             }
             catch (Exception ex)
             {
