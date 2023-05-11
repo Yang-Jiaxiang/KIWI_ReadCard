@@ -71,14 +71,12 @@ namespace KIWI_ReadCard
 
             if (response.IsSuccessStatusCode)
             {
-                Form1.instance.addLog(patientForm.name + "，新增成功");
                 return "200";
             }
             else
             {
                 if (responseContent.Contains("E11000"))
                 {
-                    Form1.instance.addLog("已經存在資料庫");
                     return "300";
                 }
                 else

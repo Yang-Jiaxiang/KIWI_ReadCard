@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using static KIWI_ReadCard.Type;
 
 namespace KIWI_ReadCard
 {
@@ -40,11 +42,78 @@ namespace KIWI_ReadCard
                 patientID=patientJson.id;
                 patientJson.department = patientDepartment;
                 string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
+                if (resStateCode == "200"){
+                    addLog(patientJson.name + "，新增成功");
+                };
+                if(resStateCode == "300") {
+                    addLog(patientJson.name + "，報到成功");
+                };
+                if (resStateCode == "500") { 
+                    addLog("請從新操作上一步驟");
+                    return;
+                };
+
+                string procedureCode = comboBox1.SelectedValue.ToString();
+
+                dynamic WorkListData = CreateWorkList2Dcm4chee(patientJson.id);
+
+                dynamic Report = CreateReport(patientJson, WorkListData);
+                string Report_id = Report["_id"].ToString();
+                CreateSchedule(patientJson, Report_id, WorkListData, procedureCode);
+                addLog("已經病患 "+ patientJson.name+" 加入排程");
+
             }
             else
             {
                 addLog("#未插入健保卡");
             }
+        }
+
+        private dynamic CreateWorkList2Dcm4chee(string pID)
+        {
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/worklist/" + pID, apiToken);
+            dynamic response = request.Get();
+            if (response == null)
+            {
+                return "No Data";
+            }
+            else
+            {
+                return response;
+            }
+        }
+
+        private dynamic CreateReport(dynamic Patient, dynamic WodkListData)
+        {
+            var Report = new
+            {
+                patientID = Patient.id,
+                accessionNumber = WodkListData["accessionNumber"],
+                StudyInstanceUID = WodkListData["StudyInstanceUID"]
+            };
+            // 將 JSON 物件序列化為 JSON 字串
+            string json = JsonConvert.SerializeObject(Report);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/report", apiToken);
+            dynamic response = request.Post(json);
+
+            return response;
+        }
+
+        private dynamic CreateSchedule(dynamic Patient, string Report_id, dynamic WodkListData,string procedureCode)
+        {
+            var Schedule = new
+            {
+                patientID = Patient.id,
+                reportID = Report_id,
+                procedureCode = procedureCode,
+                accessionNumber = WodkListData["accessionNumber"],
+                StudyInstanceUID = WodkListData["StudyInstanceUID"],
+                status = "wait-examination",
+            };// 將 JSON 物件序列化為 JSON 字串
+            string json = JsonConvert.SerializeObject(Schedule);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/schedule", apiToken);
+            dynamic response = request.Post(json);
+            return response;
         }
 
 
