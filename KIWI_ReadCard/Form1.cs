@@ -40,7 +40,6 @@ namespace KIWI_ReadCard
                 patientID=patientJson.id;
                 patientJson.department = patientDepartment;
                 string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
-                Console.WriteLine(resStateCode);
             }
             else
             {
