@@ -33,11 +33,12 @@ namespace KIWI_ReadCard
                 patientID = Form1.instance.patientID,
                 number = string.IsNullOrEmpty(textBox1.Text) ? "無抽血" : textBox1.Text
             };
-            CreateBlood(postApiBloodForm);
+
+            string BoolID = CreateBlood(postApiBloodForm);
             string StudyInstanceUID = CreateWorkList(Form1.instance.patientID);
             dynamic Report = CreateReport(postApiBloodForm, StudyInstanceUID);
             string Report_id = Report["_id"].ToString();
-            dynamic Schedule = CreateSchedule(postApiBloodForm.patientID, Report_id, StudyInstanceUID);
+            dynamic Schedule = CreateSchedule(postApiBloodForm.patientID, Report_id, StudyInstanceUID,Form1.instance.eventID, BoolID);
             Form1.instance.closeBloodForm();
         }
 
@@ -56,11 +57,12 @@ namespace KIWI_ReadCard
             }
         }
 
-        private void CreateBlood(postApiBloodForm postApiBloodForm)
+        private string CreateBlood(postApiBloodForm postApiBloodForm)
         {
             string BloodJson = JsonConvert.SerializeObject(postApiBloodForm);
             fetchApi.APIRequest request = new fetchApi.APIRequest("api/blood", Form1.instance.apiToken);
             dynamic BloodResponse = request.Post(BloodJson);
+            return BloodResponse["_id"];
         }
 
         private dynamic CreateReport(postApiBloodForm postApiBloodForm , string StudyInstanceUID)
@@ -79,7 +81,7 @@ namespace KIWI_ReadCard
             return response;
         }
 
-        private dynamic CreateSchedule(string patientID, string Report_id, string StudyInstanceUID)
+        private dynamic CreateSchedule(string patientID, string Report_id, string StudyInstanceUID ,string eventID,string bloodID)
         {
             var Schedule = new
             {
@@ -87,6 +89,8 @@ namespace KIWI_ReadCard
                 reportID = Report_id,
                 procedureCode = "19009C",
                 StudyInstanceUID = StudyInstanceUID,
+                eventID = eventID,
+                bloodID = bloodID,
                 status = "wait-blood",
             };
             string json = JsonConvert.SerializeObject(Schedule);
