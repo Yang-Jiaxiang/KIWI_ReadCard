@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace KIWI_ReadCard
@@ -19,6 +19,7 @@ namespace KIWI_ReadCard
         public string apiToken = "";
         public string patientDepartment = "";
         public string patientID = "";
+        public string eventID = "";
 
         public Form1()
         {
@@ -34,15 +35,15 @@ namespace KIWI_ReadCard
 
         private async void button_ReadCard_Click(object sender, EventArgs e)
         {
+            
             Type.PatientForm patientJson = JsonConvert.DeserializeObject<Type.PatientForm>(Reader.getData());//反序列化
+            patientID = patientJson.id;
             //判斷是否有資料
             if (patientJson.id != null)
             {
-                patientID=patientJson.id;
-                patientJson.department = patientDepartment;
-                string resStateCode = await apiPost.apiPostPatient(patientJson,apiToken);
-                if (resStateCode == "200" || resStateCode == "300") opneBloodForm();
-                Console.WriteLine(resStateCode);
+                CheckPatient(patientJson);
+                eventID = ((MyItem)comboBox1.SelectedItem).RealValue;
+                opneBloodForm();
             }
             else
             {
@@ -50,6 +51,53 @@ namespace KIWI_ReadCard
             }
         }
 
+        private void CheckPatient(Type.PatientForm patientJson)
+        {
+            fetchApi.APIRequest requestPatient = new fetchApi.APIRequest("api/patient/" + patientJson.id, apiToken, eventID);
+            dynamic responsePatient = requestPatient.Get();
+            if (responsePatient == null)
+            {
+                dynamic PatientData = CreatePatient(patientJson);
+                addLog("新增病患成功" + patientJson.name);
+            }
+            else
+            {
+                addLog("病患存在資料庫" + patientJson.name);
+            }
+        }
+
+        private dynamic CreatePatient(Type.PatientForm patientJson)
+        {
+            try
+            {
+                patientJson.department = GetDepartmentIDByEvent();
+                string json = JsonConvert.SerializeObject(patientJson);
+                fetchApi.APIRequest request = new fetchApi.APIRequest("api/patient", apiToken, eventID);
+                dynamic response = request.Post(json);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+           
+        }
+
+        public string GetDepartmentIDByEvent()
+        {
+            try
+            {
+                fetchApi.APIRequest requestEvent = new fetchApi.APIRequest("api/event/" + ((MyItem)comboBox1.SelectedItem).RealValue, apiToken,eventID);
+                dynamic responseEvent = requestEvent.Get();
+                return responseEvent["departmentID"];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }            
+        }
 
         public void addLog(string text)
         {
@@ -88,23 +136,14 @@ namespace KIWI_ReadCard
         public async void addDepartmentComboBox1()
         {
             try
-            {/*
-                fetchApi.APIRequest request = new fetchApi.APIRequest("api/department?limit=10&offset=0", apiToken);
+            {
+                fetchApi.APIRequest request = new fetchApi.APIRequest("api/event?limit=100&offset=0", apiToken, eventID);
                 dynamic response = request.Get();
-                //List<Type.getApiDepartmentResults> DepartmentList= response["results"];
-                Console.WriteLine(response["count"]);
-                */
-                Type.getApiDepartment Department = await apiGet.apiGetDepartment();
-                List<Type.getApiDepartmentResults> DepartmentList = Department.results;
-                
-                List<Type.getApiDepartmentResults> FilterCount = DepartmentList.Where(s => s.active == true).ToList();
-                System.Object[] ItemObject = new System.Object[FilterCount.Count];
 
-                for (int i = 0; i < FilterCount.Count; i++)
+                foreach(dynamic result in response["results"])
                 {
-                    ItemObject[i] = FilterCount[i].name;
+                    comboBox1.Items.Add(new MyItem(result["name"], result["_id"]) );
                 }
-                comboBox1.Items.AddRange(ItemObject);
             }
             catch (Exception ex)
             {
@@ -118,5 +157,25 @@ namespace KIWI_ReadCard
             patientDepartment = comboBox1.Text;
         }
 
+        public struct MyItem
+        {
+            public MyItem(string displayName, string realValue)
+            {
+                DisplayName = displayName;
+                RealValue = realValue;
+            }
+            public string DisplayName { get; set; }
+            public string RealValue { get; set; }
+            // must have this override method to display the right string.
+            public override string ToString()
+            {
+                return DisplayName;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           eventID= ((MyItem)comboBox1.SelectedItem).RealValue;
+        }
     }
 }
