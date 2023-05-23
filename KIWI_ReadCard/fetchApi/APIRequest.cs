@@ -14,11 +14,13 @@ namespace KIWI_ReadCard.fetchApi
     {
         private string apiUrl;
         private string accessToken;
+        private string eventID;
 
-        public APIRequest(string apiUrl, string accessToken)
+        public APIRequest(string apiUrl, string accessToken, string eventID)
         {
             this.apiUrl = ConfigurationManager.AppSettings["BACKEND_URL"] + apiUrl;
             this.accessToken = accessToken;
+            this.eventID = eventID;
         }
 
         public dynamic Get()
@@ -65,7 +67,7 @@ namespace KIWI_ReadCard.fetchApi
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.ContentLength = data.Length;
-                request.Headers.Add(HttpRequestHeader.Cookie, $"accessToken={accessToken}");
+                request.Headers.Add(HttpRequestHeader.Cookie, $"accessToken={accessToken}; event={eventID}");
 
                 using (Stream stream = request.GetRequestStream())
                 {

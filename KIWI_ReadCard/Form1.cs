@@ -51,13 +51,13 @@ namespace KIWI_ReadCard
             }
         }
 
-        private async void CheckPatient(Type.PatientForm patientJson)
+        private void CheckPatient(Type.PatientForm patientJson)
         {
-            fetchApi.APIRequest requestPatient = new fetchApi.APIRequest("api/patient/" + patientJson.id, apiToken);
+            fetchApi.APIRequest requestPatient = new fetchApi.APIRequest("api/patient/" + patientJson.id, apiToken, eventID);
             dynamic responsePatient = requestPatient.Get();
             if (responsePatient == null)
             {
-                dynamic PatientData = await CreatePatient(patientJson);
+                dynamic PatientData = CreatePatient(patientJson);
                 addLog("新增病患成功" + patientJson.name);
             }
             else
@@ -68,19 +68,35 @@ namespace KIWI_ReadCard
 
         private dynamic CreatePatient(Type.PatientForm patientJson)
         {
-            patientJson.department = GetDepartmentIDByEvent();
-            string json = JsonConvert.SerializeObject(patientJson);
-            fetchApi.APIRequest request = new fetchApi.APIRequest("api/patient", apiToken);
-            dynamic response = request.Post(json);
-            return response;
+            try
+            {
+                patientJson.department = GetDepartmentIDByEvent();
+                string json = JsonConvert.SerializeObject(patientJson);
+                fetchApi.APIRequest request = new fetchApi.APIRequest("api/patient", apiToken, eventID);
+                dynamic response = request.Post(json);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+           
         }
 
         public string GetDepartmentIDByEvent()
         {
-            fetchApi.APIRequest requestEvent = new fetchApi.APIRequest("api/event/" + ((MyItem)comboBox1.SelectedItem).RealValue, apiToken);
-            dynamic responseEvent = requestEvent.Get();
-            Console.WriteLine(responseEvent["departmentID"]);
-            return responseEvent["departmentID"];
+            try
+            {
+                fetchApi.APIRequest requestEvent = new fetchApi.APIRequest("api/event/" + ((MyItem)comboBox1.SelectedItem).RealValue, apiToken,eventID);
+                dynamic responseEvent = requestEvent.Get();
+                return responseEvent["departmentID"];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }            
         }
 
         public void addLog(string text)
@@ -121,7 +137,7 @@ namespace KIWI_ReadCard
         {
             try
             {
-                fetchApi.APIRequest request = new fetchApi.APIRequest("api/event?limit=100&offset=0", apiToken);
+                fetchApi.APIRequest request = new fetchApi.APIRequest("api/event?limit=100&offset=0", apiToken, eventID);
                 dynamic response = request.Get();
 
                 foreach(dynamic result in response["results"])

@@ -28,6 +28,7 @@ namespace KIWI_ReadCard
 
         private async void button1_Click(object sender, EventArgs e)
         {
+           
             postApiBloodForm postApiBloodForm = new postApiBloodForm()
             {
                 patientID = Form1.instance.patientID,
@@ -38,13 +39,14 @@ namespace KIWI_ReadCard
             string StudyInstanceUID = CreateWorkList(Form1.instance.patientID);
             dynamic Report = CreateReport(postApiBloodForm, StudyInstanceUID);
             string Report_id = Report["_id"].ToString();
-            dynamic Schedule = CreateSchedule(postApiBloodForm.patientID, Report_id, StudyInstanceUID,Form1.instance.eventID, BoolID);
+            dynamic Schedule = CreateSchedule(postApiBloodForm.patientID, Report_id, StudyInstanceUID, Form1.instance.eventID, BoolID);
             Form1.instance.closeBloodForm();
+            
         }
 
         private string CreateWorkList(string patientID)
         {
-            fetchApi.APIRequest request = new fetchApi.APIRequest("api/worklist/" + patientID, Form1.instance.apiToken);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/worklist/" + patientID, Form1.instance.apiToken , Form1.instance.eventID);
             dynamic response = request.Get();
             if (response == null)
             {
@@ -52,7 +54,6 @@ namespace KIWI_ReadCard
             }
             else
             {
-                Console.WriteLine(response[0]);
                 return response[0];
             }
         }
@@ -60,7 +61,7 @@ namespace KIWI_ReadCard
         private string CreateBlood(postApiBloodForm postApiBloodForm)
         {
             string BloodJson = JsonConvert.SerializeObject(postApiBloodForm);
-            fetchApi.APIRequest request = new fetchApi.APIRequest("api/blood", Form1.instance.apiToken);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/blood", Form1.instance.apiToken, Form1.instance.eventID);
             dynamic BloodResponse = request.Post(BloodJson);
             return BloodResponse["_id"];
         }
@@ -76,12 +77,12 @@ namespace KIWI_ReadCard
             };
 
             string ReportJson = JsonConvert.SerializeObject(Report);
-            fetchApi.APIRequest request = new fetchApi.APIRequest("api/report", Form1.instance.apiToken);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/report", Form1.instance.apiToken, Form1.instance.eventID);
             dynamic response = request.Post(ReportJson);
             return response;
         }
 
-        private dynamic CreateSchedule(string patientID, string Report_id, string StudyInstanceUID ,string eventID,string bloodID)
+        private dynamic CreateSchedule(string patientID, string Report_id, string StudyInstanceUID,string eventID,string bloodID)
         {
             var Schedule = new
             {
@@ -91,10 +92,10 @@ namespace KIWI_ReadCard
                 StudyInstanceUID = StudyInstanceUID,
                 eventID = eventID,
                 bloodID = bloodID,
-                status = "wait-blood",
+                status = "wait-examination",
             };
             string json = JsonConvert.SerializeObject(Schedule);
-            fetchApi.APIRequest request = new fetchApi.APIRequest("api/schedule", Form1.instance.apiToken);
+            fetchApi.APIRequest request = new fetchApi.APIRequest("api/schedule", Form1.instance.apiToken, Form1.instance.eventID);
             dynamic response = request.Post(json);
             return response;
         }
