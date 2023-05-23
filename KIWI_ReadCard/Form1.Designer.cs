@@ -73,7 +73,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 29);
             this.label1.TabIndex = 4;
-            this.label1.Text = "部門：";
+            this.label1.Text = "活動：";
             // 
             // Form1
             // 
